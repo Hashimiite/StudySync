@@ -21,6 +21,6 @@ from django.http import HttpResponseRedirect
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('study-groups/', include('study_groups.urls')),
-    path('', lambda request: HttpResponseRedirect('/study-groups/login/')),  # Redirect root URL to login page
+    path('', lambda request: HttpResponseRedirect('/study-groups/login/')),
 ]
 

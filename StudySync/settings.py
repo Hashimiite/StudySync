@@ -55,8 +55,8 @@ ROOT_URLCONF = 'StudySync.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],  # You can add additional directories here if needed
-        'APP_DIRS': True,  # This ensures Django looks for templates in the app's `templates` directory
+        'DIRS': [], 
+        'APP_DIRS': True,  
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
