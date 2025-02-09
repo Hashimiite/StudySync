@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudySync Home</title>
+    <link rel="stylesheet" href="{% static 'study_groups/style.css' %}">
+    <nav>
+        <ul>
+            <li><a href="{% url 'login_page' %}">Login</a></li>
+            <li><a href="{% url 'register_page' %}">Register</a></li>
+        </ul>
+    </nav>
+
+</head>
+<body>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+    <h1>Welcome to StudySync</h1>
+    <p>Connect with your peers and find the perfect study group!</p>
+    <a href="/study-groups/list-groups/">View Study Groups</a>
+</body>
+</html>

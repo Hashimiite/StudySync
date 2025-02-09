@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="{% static 'study_groups/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Joined:</strong> {{ user.date_joined|date:"F j, Y" }}</p>
+
+        <h2>Update Profile</h2>
+        <form method="post">
+            {% csrf_token %}
+            <label for="preferred_study_times">Preferred Study Times:</label>
+            <input type="text" id="preferred_study_times" name="preferred_study_times" value="{{ user_profile.preferred_study_times }}">
+            
+            <label for="learning_style">Learning Style:</label>
+            <input type="text" id="learning_style" name="learning_style" value="{{ user_profile.learning_style }}">
+            
+            <button type="submit">Update Profile</button>
+        </form>
+    </main>
+
+    <footer>
+        <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+    </footer>
+</body>
+</html>

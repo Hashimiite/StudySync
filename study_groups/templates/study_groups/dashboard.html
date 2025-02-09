@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{% static 'study_groups/style.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ user.username }}!</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'view_profile' %}"><i class="fas fa-user"></i> View Profile</a></li>
+            <li><a href="{% url 'join_or_create_group' %}"><i class="fas fa-users"></i> Join/Create Study Group</a></li>
+            <li><a href="{% url 'logout_page' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <!-- User Summary -->
+        <section class="profile-summary">
+            <h2>Your Profile</h2>
+            <p><strong>Last Login:</strong> {{ user.last_login|date:"F j, Y, g:i a" }}</p>
+        </section>
+
+        <!-- Dashboard Features -->
+        <section class="dashboard-features">
+            <h2>Dashboard Features</h2>
+            <ul>
+                <li><i class="fas fa-user"></i> <strong>View Profile:</strong> Update your information and manage your account.</li>
+                <li><i class="fas fa-users"></i> <strong>Join/Create Groups:</strong> Collaborate with peers in study groups.</li>
+                <li><i class="fas fa-envelope"></i> <strong>Notifications:</strong> Stay updated with group invitations and announcements.</li>
+                <li><i class="fas fa-cogs"></i> <strong>Settings:</strong> Customize your account preferences.</li>
+            </ul>
+        </section>
+
+        <!-- Recent Activity -->
+        <section class="recent-activity">
+            <h2>Recent Activity</h2>
+            <ul>
+                {% for group in user.study_groups.all %}
+                    <li>You joined <a href="{% url 'group_chat' group.id %}">{{ group.name }}</a> on {{ group.joined_at|date:"F j, Y" }}.</li>
+                {% empty %}
+                    <li>No recent activity. Join a study group to get started!</li>
+                {% endfor %}
+            </ul>
+        </section>
+
+
+
+<section class="notifications">
+    <h2>Notifications</h2>
+    <ul>
+        {% for notification in notifications %}
+            <li>{{ notification.message }}</li>
+        {% empty %}
+            <li>No new notifications.</li>
+        {% endfor %}
+    </ul>
+</section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 StudySync</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join or Create Study Group</title>
+    <link rel="stylesheet" href="{% static 'study_groups/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+        </nav>
+    </header>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<h2>Available Groups</h2>
+<ul>
+    {% for group in groups %}
+        <li>
+            <strong><a href="{% url 'group_chat' group.id %}">{{ group.name }}</a></strong><br>
+            Course: {{ group.course.name }}<br>
+            Description: {{ group.schedule }}
+        </li>
+    {% empty %}
+        <p>No groups available yet. Create one now!</p>
+    {% endfor %}
+</ul>
+
+    <div class="container">
+        <h1>Join or Create a Study Group</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="name">Group Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="course_name">Course Name:</label>
+            <input type="text" id="course_name" name="course_name" required>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+            <button type="submit">Create Group</button>
+        </form>
+
+        <h2>Available Groups</h2>
+        <ul>
+            {% for group in groups %}
+                <li>
+                    <strong>{{ group.name }}</strong><br>
+                    Course: {{ group.course.name }}<br>
+                    Description: {{ group.schedule }}
+                </li>
+            {% empty %}
+                <p>No groups available yet. Create one now!</p>
+            {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Chat</title>
+    <link rel="stylesheet" href="{% static 'study_groups/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Group Chat: {{ group.name }}</h1>
+        <nav>
+            <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <p><strong>Description:</strong> {{ group.description }}</p>
+        <p><strong>Members ({{ member_count }}):</strong> {{ members|join:", " }}</p>
+
+        <div class="chat-section">
+            <div class="messages">
+                <h3>Messages</h3>
+                {% for message in messages %}
+                    <div class="message-card">
+                        <strong>{{ message.user.username }}</strong>
+                        <span class="timestamp">{{ message.timestamp|date:"F j, Y, g:i a" }}</span>
+                        <p>{{ message.content }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        
+            <div class="shared-files">
+                <h3>Shared Files</h3>
+                {% for file in shared_files %}
+                    <div class="file-card">
+                        <strong>{{ file.user.username }}</strong> shared
+                        <a href="{{ file.file.url }}" download>{{ file.file.name }}</a>
+                        <span class="timestamp">{{ file.timestamp|date:"F j, Y, g:i a" }}</span>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Form for sending messages -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                {{ form.as_p }}
+                <button type="submit" name="message" class="btn">Send Message</button>
+            </div>
+        </form>
+
+        <!-- Form for uploading files -->
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                {{ file_form.as_p }}
+                <button type="submit" name="file" class="btn">Upload File</button>
+            </div>
+        </form>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 StudySync</p>
+    </footer>
+</body>
+</html>

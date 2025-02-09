@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Study Groups</title>
+    <link rel="stylesheet" href="{% static 'study_groups/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Search Study Groups</h1>
+        <nav>
+            <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+        </nav>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{% url 'dashboard' %}">Back to Dashboard</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <form method="get" action="{% url 'search_groups' %}">
+            <input type="text" name="q" placeholder="Search groups..." value="{{ query }}">
+            <button type="submit">Search</button>
+        </form>
+
+        <ul>
+            {% for group in groups %}
+                <li>
+                    <strong><a href="{% url 'group_chat' group.id %}">{{ group.name }}</a></strong><br>
+                    Course: {{ group.course.name }}<br>
+                    Description: {{ group.description }}
+                </li>
+            {% empty %}
+                <li>No groups found.</li>
+            {% endfor %}
+        </ul>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 StudySync</p>
+    </footer>
+</body>
+</html>

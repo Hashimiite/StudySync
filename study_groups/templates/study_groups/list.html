@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Groups</title>
+    <link rel="stylesheet" href="{% static 'study_groups/style.css' %}">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="{% url 'dashboard' %}" class="btn">Back to Dashboard</a>
+        </nav>
+    </header>
+    {% if messages %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<ul>
+    {% for group in groups %}
+        <li>
+            <strong><a href="{% url 'group_chat' group.id %}">{{ group.name }}</a></strong><br>
+            Course: {{ group.course.name }}<br>
+            Schedule: {{ group.schedule }}
+        </li>
+    {% empty %}
+        <p>No study groups available at the moment. Create one!</p>
+    {% endfor %}
+</ul>
+
+    <header>
+        <h1>Available Study Groups</h1>
+    </header>
+
+    <main>
+        <ul>
+            {% for group in groups %}
+                <li>
+                    <strong>{{ group.name }}</strong><br>
+                    Course: {{ group.course.name }}<br>
+                    Schedule: {{ group.schedule }}
+                </li>
+            {% empty %}
+                <p>No study groups available at the moment. Create one!</p>
+            {% endfor %}
+        </ul>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 StudySync</p>
+    </footer>
+</body>
+</html>
