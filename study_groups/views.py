@@ -24,7 +24,7 @@ def login_page(request):
             messages.error(request, 'Invalid username or password.')
             return redirect('login_page')
 
-    return render(request, 'study_groups/login.html')
+    return render(request, 'login.html')
 
 
 # Registration Page
@@ -46,7 +46,7 @@ def register_page(request):
         messages.success(request, 'Registration successful! Please log in.')
         return redirect('login_page')
 
-    return render(request, 'study_groups/register.html')
+    return render(request, 'register.html')
 
 
 # Logout View
@@ -59,7 +59,7 @@ def logout_view(request):
 @login_required
 def dashboard(request):
     notifications = Notification.objects.filter(user=request.user, read=False)
-    return render(request, 'study_groups/dashboard.html', {'user': request.user, 'notifications': notifications})
+    return render(request, 'dashboard.html', {'user': request.user, 'notifications': notifications})
 
 
 # join or Create Study Group Page
@@ -76,7 +76,7 @@ def join_or_create_group(request):
         return redirect('join_or_create_group')
 
     groups = StudyGroup.objects.all()
-    return render(request, 'study_groups/join_or_create.html', {'groups': groups})
+    return render(request, 'join_or_create.html', {'groups': groups})
 
 
 @login_required
@@ -91,7 +91,7 @@ def view_profile(request):
         messages.success(request, 'Profile updated successfully!')
         return redirect('view_profile')  # redirect to the profile page after updating
 
-    return render(request, 'study_groups/profile.html', {
+    return render(request, 'profile.html', {
         'user': request.user,
         'user_profile': user_profile,
     })
@@ -125,7 +125,7 @@ def group_chat(request, group_id):
     form = MessageForm()
     file_form = FileUploadForm()
 
-    return render(request, 'study_groups/groupchat.html', {  # Update this line
+    return render(request, 'groupchat.html', {  # Update this line
         'group': group,
         'messages': messages,
         'shared_files': shared_files,
@@ -142,4 +142,4 @@ def search_groups(request):
         groups = StudyGroup.objects.filter(name__icontains=query)
     else:
         groups = StudyGroup.objects.all()
-    return render(request, 'study_groups/search.html', {'groups': groups, 'query': query})
+    return render(request, 'search.html', {'groups': groups, 'query': query})
