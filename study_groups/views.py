@@ -62,18 +62,14 @@ def dashboard(request):
     return render(request, 'study_groups/dashboard.html', {'user': request.user, 'notifications': notifications})
 
 
-# Join or Create Study Group Page
+# join or Create Study Group Page
 @login_required
 def join_or_create_group(request):
     if request.method == 'POST':
         name = request.POST.get('name')
         course_name = request.POST.get('course_name')
         description = request.POST.get('description')
-
-        # Ensure the course is created or fetched correctly
         course, created = Course.objects.get_or_create(name=course_name)
-
-        # Create the StudyGroup instance
         StudyGroup.objects.create(name=name, course=course, schedule=description)
 
         messages.success(request, 'Study group created successfully!')
@@ -93,7 +89,7 @@ def view_profile(request):
         user_profile.learning_style = request.POST.get('learning_style', '')
         user_profile.save()
         messages.success(request, 'Profile updated successfully!')
-        return redirect('view_profile')  # Redirect to the profile page after updating
+        return redirect('view_profile')  # redirect to the profile page after updating
 
     return render(request, 'study_groups/profile.html', {
         'user': request.user,
@@ -104,7 +100,7 @@ def view_profile(request):
 @login_required
 def group_chat(request, group_id):
     group = get_object_or_404(StudyGroup, id=group_id)
-    messages = group.messages.order_by('-timestamp')[:50]  # Show last 50 messages
+    messages = group.messages.order_by('-timestamp')[:50]  # show last 50 messages
     shared_files = group.shared_files.order_by('-timestamp')
     member_count = group.member_count()
 
