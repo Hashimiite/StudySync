@@ -9,7 +9,6 @@ from .forms import MessageForm, FileUploadForm
 from django.contrib.auth.models import User
 from .models import StudyGroup, Course
 
-# Login Page
 def login_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -27,7 +26,6 @@ def login_page(request):
     return render(request, 'login.html')
 
 
-# Registration Page
 def register_page(request):
     if request.method == 'POST':
         username = request.POST.get('username')
@@ -49,7 +47,6 @@ def register_page(request):
     return render(request, 'register.html')
 
 
-# Logout View
 def logout_view(request):
     logout(request)
     messages.success(request, 'You have been logged out.')
@@ -62,7 +59,6 @@ def dashboard(request):
     return render(request, 'dashboard.html', {'user': request.user, 'notifications': notifications})
 
 
-# join or Create Study Group Page
 @login_required
 def join_or_create_group(request):
     if request.method == 'POST':
@@ -84,12 +80,11 @@ def view_profile(request):
     user_profile, created = UserProfile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
-        # Update the user profile with the submitted data
         user_profile.preferred_study_times = request.POST.get('preferred_study_times', '')
         user_profile.learning_style = request.POST.get('learning_style', '')
         user_profile.save()
         messages.success(request, 'Profile updated successfully!')
-        return redirect('view_profile')  # redirect to the profile page after updating
+        return redirect('view_profile')
 
     return render(request, 'profile.html', {
         'user': request.user,
@@ -100,7 +95,7 @@ def view_profile(request):
 @login_required
 def group_chat(request, group_id):
     group = get_object_or_404(StudyGroup, id=group_id)
-    messages = group.messages.order_by('-timestamp')[:50]  # show last 50 messages
+    messages = group.messages.order_by('-timestamp')[:50]  
     shared_files = group.shared_files.order_by('-timestamp')
     member_count = group.member_count()
 
@@ -125,7 +120,7 @@ def group_chat(request, group_id):
     form = MessageForm()
     file_form = FileUploadForm()
 
-    return render(request, 'groupchat.html', {  # Update this line
+    return render(request, 'groupchat.html', {
         'group': group,
         'messages': messages,
         'shared_files': shared_files,
